@@ -797,7 +797,7 @@
   setInterval(updateCountdown, 1000);
 
   // Form submission — opens Google Form pre-filled
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const nome    = document.getElementById('nome').value;
@@ -809,16 +809,23 @@
     const ano     = document.getElementById('ano').value;
     const obs     = document.getElementById('obs').value;
 
-    const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfdyiHPL472r7_bRUBmQFS2vh6fJwmzO4HLX0BZgOj-kHZukQ/viewform';
-    window.open(formUrl, '_blank');
+    const btn = document.querySelector('#registrationForm button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({ nome, contato, cidade, clube, marca, modelo, ano, obs })
+    });
 
     document.getElementById('registrationForm').innerHTML = `
       <div class="full" style="text-align:center; padding: 2rem 0;">
         <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-        <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--dark); margin-bottom:.8rem;">Formulário aberto em nova aba!</h3>
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--dark); margin-bottom:.8rem;">Inscrição enviada com sucesso!</h3>
         <p style="color:var(--muted); line-height:1.8; max-width:480px; margin:0 auto;">
-          Preencha o formulário oficial que foi aberto.<br/>
-          Após enviar, realize o pagamento de <strong>R$ 100,00</strong> via PIX<br/>
+          Sua inscrição foi recebida!<br/>
+          Realize o pagamento de <strong>R$ 100,00</strong> via PIX<br/>
           e envie o comprovante para <strong>(81) 90000-0000</strong>.
         </p>
       </div>
