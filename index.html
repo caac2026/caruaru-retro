@@ -809,11 +809,20 @@
     const ano     = document.getElementById('ano').value;
     const obs     = document.getElementById('obs').value;
 
-    // Redirect to actual Google Form — fields to be mapped by organizer
-    const formUrl = 'https://docs.google.com/forms/d/1NOnR8nbhP29J9z_CgxI9F_TfjULO5IC3xGt2mzlXPCE/viewform';
+    const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfdyiHPL472r7_bRUBmQFS2vh6fJwmzO4HLX0BZgOj-kHZukQ/viewform';
     window.open(formUrl, '_blank');
 
-    alert('Sua inscrição foi iniciada!\n\nVocê será redirecionado para o formulário oficial.\nApós preencher, realize o pagamento via PIX e envie o comprovante para (81) 90000-0000.');
+    document.getElementById('registrationForm').innerHTML = `
+      <div class="full" style="text-align:center; padding: 2rem 0;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--dark); margin-bottom:.8rem;">Formulário aberto em nova aba!</h3>
+        <p style="color:var(--muted); line-height:1.8; max-width:480px; margin:0 auto;">
+          Preencha o formulário oficial que foi aberto.<br/>
+          Após enviar, realize o pagamento de <strong>R$ 100,00</strong> via PIX<br/>
+          e envie o comprovante para <strong>(81) 90000-0000</strong>.
+        </p>
+      </div>
+    `;
   }
 </script>
 
