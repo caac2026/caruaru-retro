@@ -822,7 +822,7 @@
     await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
       method: 'POST',
       mode: 'no-cors',
-      body: JSON.stringify({ nome, contato, cidade, clube, marca, modelo, ano, obs })
+      body: JSON.stringify({ nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
     });
 
     const whatsappMsg = encodeURIComponent(
@@ -888,7 +888,7 @@
     await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
       method: 'POST',
       mode: 'no-cors',
-      body: JSON.stringify({ nome, contato, cidade, clube, marca, modelo, ano, obs })
+      body: JSON.stringify({ nome, contato, cidade, estado, clube, marca, modelo, ano, obs }
     });
 
     const whatsappMsg = encodeURIComponent(
