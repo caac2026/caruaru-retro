@@ -240,7 +240,7 @@
     localStorage.setItem('caac_seq', seq);
     var inscricao = 'INS-2026-' + String(seq).padStart(3, '0');
 
-    fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
       method: 'POST', mode: 'no-cors',
       body: JSON.stringify({ inscricao: inscricao, nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, obs: obs })
     });
