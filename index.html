@@ -236,19 +236,16 @@
     btn.disabled = true;
     btn.textContent = 'Enviando...';
 
-    let inscricao = null;
-    try {
-      const res = await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
-        method: 'POST',
-        body: JSON.stringify({ nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
-      });
-      const json = await res.json();
-      if (json.success) inscricao = json.inscricao;
-    } catch (err) {
-      console.error('Erro ao enviar inscrição:', err);
-    }
+    const seq = (parseInt(localStorage.getItem('caac_seq') || '0') + 1);
+    localStorage.setItem('caac_seq', seq);
+    const inscricao = 'INS-2026-' + String(seq).padStart(3, '0');
 
-    const numeroExibido = inscricao || '—';
+    fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify({ inscricao, nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
+    });
+
+    const numeroExibido = inscricao;
 
     const msg = encodeURIComponent(
       'Olá! Segue minha inscrição para o Caruaru Retro 2026:\n\n' +
