@@ -240,7 +240,6 @@
     try {
       const res = await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
       });
       const json = await res.json();
