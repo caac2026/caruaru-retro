@@ -1,1 +1,284 @@
-pbcopy < /Users/sauloozonio/index.html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IX Caruaru Retro — CAAC 2026</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --cream:#f5f0e8; --dark:#1a1209; --gold:#c8922a; --gold-lt:#e8b84b; --rust:#8b2c0a; --text:#2e200a; --muted:#6b5a3e; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+    .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; background: linear-gradient(160deg, rgba(26,18,9,.85) 0%, rgba(139,44,10,.7) 60%, rgba(26,18,9,.9) 100%), url('hero-car.jpg') center/cover no-repeat; overflow:hidden; }
+    .hero::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(200,146,42,.04) 2px,rgba(200,146,42,.04) 4px); pointer-events:none; }
+    .badge { display:inline-block; border:1px solid var(--gold); color:var(--gold-lt); font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; padding:.4rem 1.2rem; border-radius:2px; margin-bottom:1.5rem; }
+    .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3rem,10vw,7rem); font-weight:900; line-height:1; color:var(--cream); text-shadow:0 4px 30px rgba(0,0,0,.6); }
+    .hero-title span { color:var(--gold-lt); }
+    .hero-sub { font-family:'Playfair Display',serif; font-size:clamp(1rem,3vw,1.5rem); color:rgba(245,240,232,.75); margin-top:.75rem; letter-spacing:.05em; }
+    .divider-ornament { display:flex; align-items:center; gap:1rem; margin:1.8rem auto; width:fit-content; color:var(--gold); }
+    .divider-ornament::before, .divider-ornament::after { content:''; width:60px; height:1px; background:var(--gold); }
+    .hero-date { font-size:clamp(1rem,2.5vw,1.3rem); color:var(--cream); font-weight:600; letter-spacing:.08em; }
+    .hero-location { font-size:.9rem; color:rgba(245,240,232,.65); margin-top:.5rem; }
+    .cta-group { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2.5rem; }
+    .btn { display:inline-block; padding:.85rem 2.2rem; border-radius:3px; font-weight:600; font-size:.95rem; letter-spacing:.04em; text-decoration:none; transition:transform .2s,box-shadow .2s; cursor:pointer; border:none; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.35); }
+    .btn-primary { background:linear-gradient(135deg,var(--gold),var(--gold-lt)); color:var(--dark); }
+    .btn-outline { background:transparent; border:2px solid var(--gold); color:var(--gold-lt); }
+    section { padding:5rem 1.5rem; }
+    .container { max-width:1100px; margin:0 auto; }
+    .section-label { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); margin-bottom:.6rem; font-weight:600; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3rem); font-weight:700; color:var(--dark); line-height:1.15; margin-bottom:1.2rem; }
+    .section-text { color:var(--muted); font-size:1.05rem; line-height:1.8; max-width:640px; }
+    .about { background:#fff; }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+    .about-img { border-radius:4px; overflow:hidden; position:relative; }
+    .about-img img { width:100%; height:400px; object-fit:cover; display:block; }
+    .about-img::after { content:''; position:absolute; inset:12px; border:2px solid var(--gold); border-radius:2px; pointer-events:none; opacity:.5; }
+    .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:2rem; }
+    .stat { text-align:center; padding:1.2rem; border:1px solid rgba(200,146,42,.3); border-radius:4px; background:var(--cream); }
+    .stat-number { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--gold); }
+    .stat-label { font-size:.8rem; color:var(--muted); margin-top:.3rem; letter-spacing:.05em; }
+    .info { background:var(--cream); }
+    .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; margin-top:3rem; }
+    .card { background:#fff; border-radius:6px; padding:2rem; border-top:3px solid var(--gold); box-shadow:0 2px 16px rgba(0,0,0,.06); transition:transform .2s; }
+    .card:hover { transform:translateY(-4px); }
+    .card-icon { font-size:2rem; margin-bottom:1rem; }
+    .card-title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; margin-bottom:.6rem; color:var(--dark); }
+    .card-text { font-size:.9rem; color:var(--muted); line-height:1.7; }
+    .countdown-section { background:linear-gradient(135deg,var(--dark) 0%,#2e1505 100%); color:var(--cream); text-align:center; }
+    .countdown-section .section-title { color:var(--cream); }
+    .countdown { display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; margin-top:2.5rem; }
+    .countdown-item { min-width:90px; }
+    .countdown-number { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; color:var(--gold-lt); line-height:1; display:block; }
+    .countdown-label { font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(245,240,232,.55); margin-top:.4rem; }
+    .countdown-sep { font-size:3rem; color:var(--gold); align-self:flex-start; margin-top:.2rem; }
+    .registration { background:#fff; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:2.5rem; }
+    .form-group { display:flex; flex-direction:column; gap:.4rem; }
+    .form-group.full { grid-column:1/-1; }
+    label { font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+    input, select, textarea { padding:.75rem 1rem; border:1.5px solid #ddd; border-radius:4px; font-size:.95rem; font-family:'Inter',sans-serif; color:var(--text); background:var(--cream); transition:border-color .2s; outline:none; }
+    input:focus, select:focus, textarea:focus { border-color:var(--gold); background:#fff; }
+    textarea { resize:vertical; min-height:100px; }
+    .form-note { font-size:.8rem; color:var(--muted); margin-top:-.4rem; line-height:1.5; }
+    .form-submit { grid-column:1/-1; text-align:center; margin-top:1rem; }
+    .form-submit .btn { min-width:220px; font-size:1rem; padding:1rem 2.5rem; }
+    .pix-box { background:var(--cream); border:1px solid rgba(200,146,42,.4); border-radius:6px; padding:1.5rem; margin-top:2rem; display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap; }
+    .pix-icon { font-size:2.5rem; }
+    .pix-content h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--dark); margin-bottom:.5rem; }
+    .pix-content p { font-size:.9rem; color:var(--muted); line-height:1.7; }
+    .pix-content strong { color:var(--text); }
+    .location-section { background:var(--cream); }
+    .location-grid { display:grid; grid-template-columns:1fr 1.6fr; gap:3rem; align-items:start; margin-top:2.5rem; }
+    .location-detail { display:flex; gap:1rem; align-items:flex-start; padding:1rem 0; border-bottom:1px solid rgba(200,146,42,.2); }
+    .location-detail:last-child { border-bottom:none; }
+    .loc-icon { font-size:1.4rem; flex-shrink:0; }
+    .loc-label { font-size:.75rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-weight:600; }
+    .loc-value { font-size:.95rem; color:var(--text); margin-top:.2rem; line-height:1.5; }
+    .map-placeholder { background:#e8e0d0; border-radius:6px; height:320px; display:flex; align-items:center; justify-content:center; font-size:.9rem; color:var(--muted); border:1px solid rgba(200,146,42,.2); overflow:hidden; }
+    .map-placeholder iframe { width:100%; height:100%; border:none; border-radius:6px; }
+    footer { background:var(--dark); color:rgba(245,240,232,.55); text-align:center; padding:3rem 1.5rem; font-size:.85rem; line-height:1.8; }
+    footer strong { color:var(--gold-lt); }
+    .footer-logo { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--cream); margin-bottom:.5rem; }
+    .footer-sep { width:60px; height:1px; background:var(--gold); margin:1rem auto; }
+    @media (max-width:768px) { .about-grid, .location-grid, .form-grid { grid-template-columns:1fr; } .about-img { display:none; } .stats-row { grid-template-columns:1fr 1fr; } .countdown-sep { display:none; } }
+  </style>
+</head>
+<body>
+
+<section class="hero" id="inicio">
+  <div class="badge">Clube do Automóvel Antigo de Caruaru</div>
+  <h1 class="hero-title">IX CARUARU<br><span>RETRO</span></h1>
+  <p class="hero-sub">O maior encontro de automóveis clássicos do Nordeste</p>
+  <div class="divider-ornament"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+  <p class="hero-date">25 e 26 de Setembro de 2026</p>
+  <p class="hero-location">BR-104, km 62 · Nova Caruaru · Caruaru, Pernambuco</p>
+  <div class="cta-group">
+    <a href="#inscricao" class="btn btn-primary">Inscreva seu veículo</a>
+    <a href="#sobre" class="btn btn-outline">Saiba mais</a>
+  </div>
+</section>
+
+<section class="about" id="sobre">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img"><img src="about-car.jpg" alt="Exposição de carros clássicos" /></div>
+      <div>
+        <p class="section-label">Sobre o Evento</p>
+        <h2 class="section-title">Uma celebração da era dourada do automobilismo</h2>
+        <p class="section-text">O Caruaru Retro é o encontro anual organizado pelo <strong>CAAC — Clube do Automóvel Antigo de Caruaru</strong>. Reúne entusiastas, colecionadores e admiradores de automóveis clássicos de todo o Brasil em um ambiente de camaradagem, cultura e paixão sobre rodas.</p>
+        <p class="section-text" style="margin-top:1rem">Em sua nona edição, o evento promete exposições deslumbrantes, música ao vivo, gastronomia regional e a convivência insubstituível entre pessoas que compartilham o mesmo amor pelos clássicos.</p>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-number">9ª</div><div class="stat-label">Edição</div></div>
+          <div class="stat"><div class="stat-number">2</div><div class="stat-label">Dias de evento</div></div>
+          <div class="stat"><div class="stat-number">PE</div><div class="stat-label">Caruaru · NE</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="info" id="info">
+  <div class="container">
+    <p class="section-label" style="text-align:center">O que esperar</p>
+    <h2 class="section-title" style="text-align:center;margin:0 auto 0;max-width:600px">Dois dias de história, estilo e emoção</h2>
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">🏆</div><div class="card-title">Exposição de Clássicos</div><div class="card-text">Centenas de veículos históricos expostos, das décadas de 1920 até 1990. Um museu a céu aberto.</div></div>
+      <div class="card"><div class="card-icon">🤝</div><div class="card-title">Encontro de Clubes</div><div class="card-text">Clubes de automóveis antigos de todo o Nordeste se reúnem para trocar experiências e fortalecer a comunidade.</div></div>
+      <div class="card"><div class="card-icon">🎵</div><div class="card-title">Programação Cultural</div><div class="card-text">Música ao vivo, gastronomia regional, fair de peças e acessórios vintage, e muito mais.</div></div>
+      <div class="card"><div class="card-icon">📍</div><div class="card-title">Localização Privilegiada</div><div class="card-text">Caruaru Polo na BR-104, km 62, com fácil acesso, amplo estacionamento e estrutura completa.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="countdown-section">
+  <div class="container">
+    <p class="section-label" style="color:var(--gold)">Faltam apenas</p>
+    <h2 class="section-title">Contagem Regressiva</h2>
+    <p style="color:rgba(245,240,232,.6);margin-top:.5rem">25 de Setembro de 2026</p>
+    <div class="countdown" id="countdown">
+      <div class="countdown-item"><span class="countdown-number" id="days">--</span><div class="countdown-label">Dias</div></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-item"><span class="countdown-number" id="hours">--</span><div class="countdown-label">Horas</div></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-item"><span class="countdown-number" id="minutes">--</span><div class="countdown-label">Minutos</div></div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-item"><span class="countdown-number" id="seconds">--</span><div class="countdown-label">Segundos</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="registration" id="inscricao">
+  <div class="container">
+    <p class="section-label">Vagas Limitadas</p>
+    <h2 class="section-title">Inscreva seu veículo</h2>
+    <p class="section-text">Preencha o formulário abaixo, efetue o pagamento via PIX e confirme sua participação. Taxa de inscrição: <strong>R$ 100,00</strong>.</p>
+    <form class="form-grid" id="registrationForm" onsubmit="handleSubmit(event)">
+      <div class="form-group"><label for="nome">Nome Completo *</label><input type="text" id="nome" placeholder="Seu nome completo" required /></div>
+      <div class="form-group"><label for="contato">Contato WhatsApp *</label><input type="text" id="contato" placeholder="(87) 9 0000-0000" required /></div>
+      <div class="form-group"><label for="cidade">Cidade *</label><input type="text" id="cidade" placeholder="Ex: Caruaru" required /></div>
+      <div class="form-group"><label for="estado">Estado *</label><input type="text" id="estado" placeholder="Ex: PE" required /></div>
+      <div class="form-group"><label for="clube">Clube Filiado</label><input type="text" id="clube" placeholder="Nome do clube ou 'Não filiado'" /></div>
+      <div class="form-group"><label for="marca">Marca do Veículo *</label><input type="text" id="marca" placeholder="Ex: Ford, Chevrolet, VW..." required /></div>
+      <div class="form-group"><label for="modelo">Modelo *</label><input type="text" id="modelo" placeholder="Ex: Fusca, Opala, Maverick..." required /></div>
+      <div class="form-group"><label for="ano">Ano do Veículo *</label><input type="number" id="ano" placeholder="Ex: 1975" min="1900" max="1999" required /></div>
+      <div class="form-group"><label>&nbsp;</label><p class="form-note" style="padding-top:.8rem">Após o envio, realize o pagamento via PIX e envie o comprovante pelo WhatsApp.</p></div>
+      <div class="form-group full"><label for="obs">Observações</label><textarea id="obs" placeholder="Alguma observação adicional? (opcional)"></textarea></div>
+      <div class="form-submit"><button type="submit" class="btn btn-primary">Enviar Inscrição</button></div>
+    </form>
+    <div class="pix-box">
+      <div class="pix-icon">💳</div>
+      <div class="pix-content">
+        <h3>Pagamento via PIX — R$ 100,00</h3>
+        <p><strong>CNPJ:</strong> 40.769.791/0001-00<br/>Após o pagamento, envie o comprovante para o WhatsApp:<br/><strong>(87) 99942-6262</strong><br/>Se o pagamento for feito por outra pessoa, informe seu nome completo na mensagem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="location-section" id="local">
+  <div class="container">
+    <p class="section-label">Como Chegar</p>
+    <h2 class="section-title">Local do Evento</h2>
+    <div class="location-grid">
+      <div>
+        <div class="location-detail"><span class="loc-icon">📍</span><div><div class="loc-label">Endereço</div><div class="loc-value">BR-104, km 62<br/>Bairro Nova Caruaru — Caruaru Polo</div></div></div>
+        <div class="location-detail"><span class="loc-icon">🏙️</span><div><div class="loc-label">Cidade</div><div class="loc-value">Caruaru, Pernambuco<br/>CEP: 55014-908</div></div></div>
+        <div class="location-detail"><span class="loc-icon">📅</span><div><div class="loc-label">Data e Horário</div><div class="loc-value">25 e 26 de Setembro de 2026</div></div></div>
+        <div class="location-detail"><span class="loc-icon">📞</span><div><div class="loc-label">Contato</div><div class="loc-value">(81) 90000-0000<br/>WhatsApp CAAC</div></div></div>
+      </div>
+      <div class="map-placeholder">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.5!2d-36.00!3d-8.28!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMTYnNDgiLjAiUyAzNsKwMDAnMDguMCJX!5e0!3m2!1spt-BR!2sbr!4v1" allowfullscreen loading="lazy" title="Localização do evento"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">CAAC</div>
+  <div>Clube do Automóvel Antigo de Caruaru</div>
+  <div class="footer-sep"></div>
+  <p><strong>IX Caruaru Retro 2026</strong> · 25 e 26 de Setembro · Caruaru, PE<br/>CNPJ: 40.769.791/0001-00 · WhatsApp: (81) 90000-0000</p>
+  <p style="margin-top:1rem;font-size:.75rem;opacity:.5">© 2026 Clube do Automóvel Antigo de Caruaru. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+  function updateCountdown() {
+    const target = new Date('2026-09-25T08:00:00-03:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML = '<p style="font-size:1.5rem;color:var(--gold-lt)">O evento está acontecendo agora! 🎉</p>';
+      return;
+    }
+    document.getElementById('days').textContent    = String(Math.floor(diff / 86400000)).padStart(3, '0');
+    document.getElementById('hours').textContent   = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const nome    = document.getElementById('nome').value;
+    const contato = document.getElementById('contato').value;
+    const cidade  = document.getElementById('cidade').value;
+    const estado  = document.getElementById('estado').value;
+    const clube   = document.getElementById('clube').value;
+    const marca   = document.getElementById('marca').value;
+    const modelo  = document.getElementById('modelo').value;
+    const ano     = document.getElementById('ano').value;
+    const obs     = document.getElementById('obs').value;
+
+    const btn = document.querySelector('#registrationForm button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    const seq = (parseInt(localStorage.getItem('caac_seq') || '0') + 1);
+    localStorage.setItem('caac_seq', seq);
+    const inscricao = 'INS-2026-' + String(seq).padStart(3, '0');
+
+    fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify({ inscricao, nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
+    });
+
+    const numeroExibido = inscricao;
+
+    const msg = encodeURIComponent(
+      'Olá! Segue minha inscrição para o Caruaru Retro 2026:\n\n' +
+      '🎫 Nº de Inscrição: ' + numeroExibido + '\n' +
+      'Nome: ' + nome + '\n' +
+      'WhatsApp: ' + contato + '\n' +
+      'Cidade: ' + cidade + ' — ' + estado + '\n' +
+      'Clube: ' + (clube || 'Não informado') + '\n' +
+      'Veículo: ' + marca + ' ' + modelo + ' ' + ano + '\n' +
+      'Obs: ' + (obs || '-') + '\n\n' +
+      'Em anexo segue o comprovante de pagamento de R$ 100,00 via PIX.'
+    );
+
+    document.getElementById('registrationForm').innerHTML =
+      '<div class="full" style="text-align:center;padding:2rem 0;">' +
+        '<div style="font-size:3rem;margin-bottom:1rem;">✅</div>' +
+        '<h3 style="font-family:\'Playfair Display\',serif;font-size:1.5rem;color:var(--dark);margin-bottom:.8rem;">Inscrição enviada com sucesso!</h3>' +
+        '<div style="display:inline-block;background:var(--cream);border:2px solid var(--gold);border-radius:8px;padding:1rem 2.5rem;margin:1rem 0;">' +
+          '<div style="font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.5rem;">Número de Inscrição</div>' +
+          '<div style="font-family:\'Playfair Display\',serif;font-size:2.2rem;font-weight:700;color:var(--dark);letter-spacing:.1em;">' + numeroExibido + '</div>' +
+          '<div style="font-size:.8rem;color:var(--muted);margin-top:.5rem;">Guarde este número para referência</div>' +
+        '</div>' +
+        '<p style="color:var(--muted);line-height:1.8;max-width:480px;margin:.5rem auto 0;">' +
+          'Realize o pagamento de <strong>R$ 100,00</strong> via PIX<br/>e clique no botão abaixo para enviar o comprovante:' +
+        '</p>' +
+        '<a href="https://wa.me/5587999426262?text=' + msg + '" target="_blank" ' +
+          'style="display:inline-block;margin-top:1.5rem;padding:.85rem 2rem;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;font-size:1rem;width:300px;text-align:center;">' +
+          'Enviar inscrição e comprovante via WhatsApp' +
+        '</a>' +
+      '</div>';
+  }
+</script>
+
+
+</body>
+</html>
