@@ -232,7 +232,79 @@
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
-      method: 'POST', mode: 'no-cors',
+      method: 'POST', mode: <script>
+  function updateCountdown() {
+    const target = new Date('2026-09-25T08:00:00-03:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) { document.getElementById('countdown').innerHTML = '<p style="font-size:1.5rem;color:var(--gold-lt)">O evento está acontecendo agora! 🎉</p>'; return; }
+    document.getElementById('days').textContent    = String(Math.floor(diff/86400000)).padStart(3,'0');
+    document.getElementById('hours').textContent   = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const nome    = document.getElementById('nome').value;
+    const contato = document.getElementById('contato').value;
+    const cidade  = document.getElementById('cidade').value;
+    const estado  = document.getElementById('estado').value;
+    const clube   = document.getElementById('clube').value;
+    const marca   = document.getElementById('marca').value;
+    const modelo  = document.getElementById('modelo').value;
+    const ano     = document.getElementById('ano').value;
+    const obs     = document.getElementById('obs').value;
+
+    const btn = document.querySelector('#registrationForm button[type="submit"]');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    let inscricao = '—';
+    try {
+      const res = await fetch('https://script.google.com/macros/s/AKfycbz5VXe2L3yiieqYCFRoFSxfFLdrbjtO1QXgt5K_hZlUDODifKm-lhYmmILVq6ZX0sD7/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
+      });
+      const json = await res.json();
+      if (json.success) inscricao = json.inscricao;
+    } catch (err) {
+      console.error('Erro ao enviar inscrição:', err);
+    }
+
+    const msg = encodeURIComponent(
+      'Olá! Segue minha inscrição para o Caruaru Retro 2026:\n\n' +
+      '🎫 Nº de Inscrição: ' + inscricao + '\n' +
+      'Nome: ' + nome + '\n' +
+      'WhatsApp: ' + contato + '\n' +
+      'Cidade: ' + cidade + ' — ' + estado + '\n' +
+      'Clube: ' + (clube || 'Não informado') + '\n' +
+      'Veículo: ' + marca + ' ' + modelo + ' ' + ano + '\n' +
+      'Obs: ' + (obs || '-') + '\n\n' +
+      'Em anexo segue o comprovante de pagamento de R$ 100,00 via PIX.'
+    );
+
+    document.getElementById('registrationForm').innerHTML =
+      '<div class="full" style="text-align:center;padding:2rem 0;">' +
+      '<div style="font-size:3rem;margin-bottom:1rem;">✅</div>' +
+      '<h3 style="font-family:\'Playfair Display\',serif;font-size:1.5rem;color:var(--dark);margin-bottom:.8rem;">Inscrição enviada com sucesso!</h3>' +
+      '<div style="display:inline-block;background:var(--cream);border:2px solid var(--gold);border-radius:8px;padding:1rem 2rem;margin:1rem 0;">' +
+        '<div style="font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:.4rem;">Número de Inscrição</div>' +
+        '<div style="font-family:\'Playfair Display\',serif;font-size:2rem;font-weight:700;color:var(--dark);letter-spacing:.1em;">' + inscricao + '</div>' +
+        '<div style="font-size:.8rem;color:var(--muted);margin-top:.4rem;">Guarde este número para referência</div>' +
+      '</div>' +
+      '<p style="color:var(--muted);line-height:1.8;max-width:480px;margin:.5rem auto 0;">Realize o pagamento de <strong>R$ 100,00</strong> via PIX<br/>e clique no botão abaixo para enviar o comprovante:</p>' +
+      '<a href="https://wa.me/5587999426262?text=' + msg + '" target="_blank" ' +
+        'style="display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold;font-size:1rem;width:280px;text-align:center;">' +
+        'Enviar inscrição e comprovante via WhatsApp' +
+      '</a>' +
+      '</div>';
+  }
+</script>
+,
       body: JSON.stringify({ nome, contato, cidade, estado, clube, marca, modelo, ano, obs })
     });
     const msg = encodeURIComponent('Olá! Segue minha inscrição para o Caruaru Retro 2026:\n\nNome: '+nome+'\nWhatsApp: '+contato+'\nCidade: '+cidade+'\nEstado: '+estado+'\nClube: '+(clube||'Não informado')+'\nVeículo: '+marca+' '+modelo+' '+ano+'\nObs: '+(obs||'-')+'\n\nEm anexo segue o comprovante de pagamento de R$ 100,00 via PIX.');
