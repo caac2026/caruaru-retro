@@ -163,6 +163,7 @@
       <div class="form-group"><label for="marca">Marca do Ve&#237;culo *</label><input type="text" id="marca" placeholder="Ex: Ford, Chevrolet, VW..." required /></div>
       <div class="form-group"><label for="modelo">Modelo *</label><input type="text" id="modelo" placeholder="Ex: Fusca, Opala, Maverick..." required /></div>
       <div class="form-group"><label for="ano">Ano do Ve&#237;culo *</label><input type="number" id="ano" placeholder="Ex: 1975" min="1900" max="1999" required /></div>
+      <div class="form-group"><label for="placa">Placa do Ve&#237;culo *</label><input type="text" id="placa" placeholder="Ex: ABC-1234" required /></div>
       <div class="form-group"><label>&nbsp;</label><p class="form-note" style="padding-top:.8rem">Apos o envio, realize o pagamento via PIX e envie o comprovante pelo WhatsApp.</p></div>
       <div class="form-group full"><label for="obs">Observacoes</label><textarea id="obs" placeholder="Alguma observacao adicional? (opcional)"></textarea></div>
       <div class="form-submit"><button type="submit" class="btn btn-primary">Enviar Inscricao</button></div>
@@ -230,6 +231,7 @@
     var marca   = document.getElementById('marca').value;
     var modelo  = document.getElementById('modelo').value;
     var ano     = document.getElementById('ano').value;
+    var placa   = document.getElementById('placa').value;
     var obs     = document.getElementById('obs').value;
 
     var btn = document.querySelector('#registrationForm button[type="submit"]');
@@ -242,7 +244,7 @@
 
     fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
       method: 'POST', mode: 'no-cors',
-      body: JSON.stringify({ inscricao: inscricao, nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, obs: obs })
+      body: JSON.stringify({ inscricao: inscricao, nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs })
     });
 
     var msg = encodeURIComponent(
@@ -253,6 +255,7 @@
       'Cidade: ' + cidade + ' - ' + estado + '\n' +
       'Clube: ' + (clube || 'Nao informado') + '\n' +
       'Veiculo: ' + marca + ' ' + modelo + ' ' + ano + '\n' +
+      'Placa: ' + placa + '\n' +
       'Obs: ' + (obs || '-') + '\n\n' +
       'Em anexo segue o comprovante de pagamento de R$ 100,00 via PIX.'
     );
