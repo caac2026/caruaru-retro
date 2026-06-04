@@ -281,5 +281,36 @@
 </script>
 
 
+<script>
+  (function () {
+    var abertura = new Date('2026-06-13T00:00:00-03:00');
+    if (new Date() < abertura) {
+      var form = document.getElementById('registrationForm');
+      var pix  = document.querySelector('.pix-box');
+      form.style.display = 'none';
+      if (pix) pix.style.display = 'none';
+      var cd = document.createElement('div');
+      cd.style.cssText = 'text-align:center;padding:2rem 0;';
+      form.parentNode.insertBefore(cd, form);
+      function tick() {
+        var diff = abertura - new Date();
+        if (diff <= 0) { cd.remove(); form.style.display=''; if(pix)pix.style.display=''; return; }
+        var d=Math.floor(diff/86400000), h=Math.floor((diff%86400000)/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
+        cd.innerHTML =
+          '<div style="font-size:3rem;margin-bottom:1rem;">&#128274;</div>' +
+          '<h3 style="font-family:\'Playfair Display\',serif;font-size:1.5rem;color:var(--dark);margin-bottom:.8rem;">Inscricoes em breve!</h3>' +
+          '<p style="color:var(--muted);margin-bottom:1.5rem;">As inscricoes abrem em <strong>13 de junho de 2026</strong></p>' +
+          '<div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">' +
+          '<div style="background:var(--dark);color:#fff;padding:1rem 1.5rem;border-radius:8px;min-width:80px;text-align:center;"><div style="font-size:2rem;font-weight:bold;">'+String(d).padStart(2,'0')+'</div><div style="font-size:.75rem;opacity:.8;">DIAS</div></div>' +
+          '<div style="background:var(--dark);color:#fff;padding:1rem 1.5rem;border-radius:08px;min-width:80px;text-align:center;"><div style="font-size:2rem;font-weight:bold;">'+String(h).padStart(2,'0')+'</div><div style="font-size:.75rem;opacity:.8;">HORAS</div></div>' +
+          '<div style="background:var(--dark);color:#fff;padding:1rem 1.5rem;border-radius:8px;min-width:80px;text-align:center;"><div style="font-size:2rem;font-weight:bold;">'+String(m).padStart(2,'0')+'</div><div style="font-size:.75rem;opacity:.8;">MINUTOS</div></div>' +
+          '<div style="background:var(--dark);color:#fff;padding:1rem 1.5rem;border-radius:8px;min-width:80px;text-align:center;"><div style="font-size:2rem;font-weight:bold;">'+String(s).padStart(2,'0')+'</div><div style="font-size:.75rem;opacity:.8;">SEGUNDOS</div></div>' +
+          '</div>';
+        setTimeout(tick, 1000);
+      }
+      tick();
+    }
+  })();
+</script>
 </body>
 </html>
