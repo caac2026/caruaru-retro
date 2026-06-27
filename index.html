@@ -187,6 +187,10 @@
     <h2 class="section-title">Inscreva seu ve&#237;culo</h2>
     <p class="section-text">Preencha o formul&#225;rio abaixo, efetue o pagamento via PIX e confirme sua participa&#231;&#227;o. Taxa de inscri&#231;&#227;o: <strong>R$ 120,00</strong>.</p>
     <form class="form-grid" id="registrationForm" onsubmit="handleSubmit(event)">
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <label for="site_contato">Nao preencher este campo</label>
+        <input type="text" id="site_contato" name="site_contato" tabindex="-1" autocomplete="off" />
+      </div>
       <div class="form-group"><label for="nome">Nome Completo *</label><input type="text" id="nome" placeholder="Seu nome completo" required /></div>
       <div class="form-group"><label for="contato">Contato WhatsApp *</label><input type="text" id="contato" placeholder="(87) 9 0000-0000" required /></div>
       <div class="form-group"><label for="cidade">Cidade *</label><input type="text" id="cidade" placeholder="Ex: Caruaru" required /></div>
@@ -297,6 +301,7 @@
     var ano     = document.getElementById('ano').value;
     var placa   = document.getElementById('placa').value;
     var obs     = document.getElementById('obs').value;
+    var hp      = document.getElementById('site_contato').value;
 
     var btn = document.querySelector('#registrationForm button[type="submit"]');
     btn.disabled = true;
@@ -304,10 +309,11 @@
 
     fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
       method: 'POST',
-      body: JSON.stringify({ nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs })
+      body: JSON.stringify({ nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs, hp: hp })
     })
     .then(function(res) { return res.json(); })
     .then(function(result) {
+      if (!result.success) { throw new Error(result.error || 'Erro ao processar inscricao'); }
       var inscricao = result.inscricao;
 
       var msg = encodeURIComponent(
@@ -344,7 +350,7 @@
     .catch(function(err) {
       btn.disabled = false;
       btn.textContent = 'Enviar Inscricao';
-      alert('Erro ao enviar inscricao. Verifique sua conexao e tente novamente.');
+      alert(err.message || 'Erro ao enviar inscricao. Verifique sua conexao e tente novamente.');
     });
   }
 </script>
