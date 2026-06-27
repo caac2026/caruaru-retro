@@ -98,9 +98,26 @@
     @media (max-width:768px) { .about-grid, .location-grid, .form-grid { grid-template-columns:1fr; } .about-img { display:none; } .stats-row { grid-template-columns:1fr 1fr; } .countdown-sep { display:none; } }
     @keyframes wa-pulse { 0%,100% { transform:scale(1); box-shadow:0 0 0 0 rgba(37,211,102,.6); } 50% { transform:scale(1.05); box-shadow:0 0 0 14px rgba(37,211,102,0); } }
     .btn-whatsapp { animation:wa-pulse 1.6s ease-in-out infinite; }
+    html { scroll-padding-top:64px; }
+    .topnav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.5rem; background:rgba(26,18,9,.92); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+    .topnav-logo { font-family:'Playfair Display',serif; font-weight:700; color:var(--cream); text-decoration:none; font-size:1.1rem; letter-spacing:.05em; flex-shrink:0; }
+    .topnav-links { display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:flex-end; }
+    .topnav-links a { color:rgba(245,240,232,.8); text-decoration:none; font-size:.85rem; font-weight:600; letter-spacing:.03em; transition:color .2s; white-space:nowrap; }
+    .topnav-links a:hover { color:var(--gold-lt); }
+    @media (max-width:600px) { .topnav { padding:.7rem 1rem; } .topnav-links { gap:.8rem; } .topnav-links a { font-size:.7rem; } .topnav-logo { font-size:.95rem; } }
   </style>
 </head>
 <body>
+
+<nav class="topnav">
+  <a href="#inicio" class="topnav-logo">CAAC</a>
+  <div class="topnav-links">
+    <a href="#sobre">Sobre</a>
+    <a href="#info">O Evento</a>
+    <a href="#inscricao">Inscri&#231;&#227;o</a>
+    <a href="#local">Local</a>
+  </div>
+</nav>
 
 <section class="hero" id="inicio">
   <div class="badge">Clube do Autom&#243;vel Antigo de Caruaru</div>
