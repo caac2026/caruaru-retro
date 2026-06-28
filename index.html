@@ -29,8 +29,7 @@
     .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; background: linear-gradient(160deg, rgba(17,20,13,.85) 0%, rgba(48,106,65,.55) 60%, rgba(17,20,13,.9) 100%), url('hero-car.jpg') center/cover no-repeat; overflow:hidden; }
     .hero::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(205,187,136,.05) 2px,rgba(205,187,136,.05) 4px); pointer-events:none; }
     .badge { display:inline-block; border:1px solid var(--gold); color:var(--gold-lt); font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; padding:.4rem 1.2rem; border-radius:2px; margin-bottom:1.5rem; }
-    .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3rem,10vw,7rem); font-weight:900; line-height:1; color:var(--cream); text-shadow:0 4px 30px rgba(0,0,0,.6); }
-    .hero-title span { color:var(--gold-lt); }
+    .hero-plate { width:min(90vw, 520px); height:auto; display:block; margin:0 auto; filter:drop-shadow(0 4px 30px rgba(0,0,0,.6)); }
     .hero-sub { font-family:'Playfair Display',serif; font-size:clamp(1rem,3vw,1.5rem); color:rgba(245,240,232,.75); margin-top:.75rem; letter-spacing:.05em; }
     .divider-ornament { display:flex; align-items:center; gap:1rem; margin:1.8rem auto; width:fit-content; color:var(--gold); }
     .divider-ornament::before, .divider-ornament::after { content:''; width:60px; height:1px; background:var(--gold); }
@@ -124,7 +123,7 @@
 
 <section class="hero" id="inicio">
   <div class="badge">Clube do Autom&#243;vel Antigo de Caruaru</div>
-  <h1 class="hero-title">IX CARUARU<br><span>RETRO</span></h1>
+  <img src="plate-9-caruaru-retro.png" alt="9 Caruaru Retro" class="hero-plate" />
   <p class="hero-sub">O maior encontro de autom&#243;veis cl&#225;ssicos do Nordeste</p>
   <div class="divider-ornament"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
   <p class="hero-date">25 e 26 de Setembro de 2026</p>
