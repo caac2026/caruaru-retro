@@ -24,9 +24,8 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --cream:#ecdfc2; --dark:#1c130a; --green:#4a3520; --green-dark:#2a1d10; --green-lt:#6b4d2e; --gold:#c9a868; --gold-lt:#e8d4a0; --text:#2b1d10; --muted:#6b5840; }
-    html { scroll-behavior: smooth; background:linear-gradient(160deg, #3c2716 0%, #1c130a 100%); }
-    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; position:relative; max-width:1300px; margin:0 auto; border:14px solid var(--gold); box-shadow:0 0 60px rgba(0,0,0,.6); }
-    @media (max-width:900px) { body { border-width:6px; } }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; position:relative; }
     body::before { content:''; position:fixed; inset:0; background:url('paper-texture.jpg'); background-size:260px 260px; opacity:.10; mix-blend-mode:multiply; pointer-events:none; z-index:2; }
     .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; background: radial-gradient(ellipse at center, transparent 35%, rgba(20,13,7,.55) 100%), linear-gradient(to bottom, rgba(28,19,10,0) 0%, rgba(28,19,10,.5) 70%, rgba(28,19,10,.94) 100%), linear-gradient(160deg, rgba(28,19,10,.82) 0%, rgba(74,53,32,.5) 60%, rgba(28,19,10,.92) 100%), url('hero-car.jpg') center bottom/cover no-repeat; overflow:hidden; filter:sepia(.35) contrast(1.05); }
     .hero::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(201,168,104,.06) 2px,rgba(201,168,104,.06) 4px); pointer-events:none; }
