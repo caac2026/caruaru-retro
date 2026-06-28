@@ -30,8 +30,9 @@
     body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; position:relative; }
     body::before { content:''; position:fixed; inset:0; background:url('paper-texture.jpg'); background-size:260px 260px; opacity:.10; mix-blend-mode:multiply; pointer-events:none; z-index:2; }
     .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; text-align:center; padding:2rem 2rem 1rem; background: radial-gradient(ellipse at center, transparent 35%, rgba(20,13,7,.55) 100%), linear-gradient(to bottom, rgba(28,19,10,0) 0%, rgba(28,19,10,.5) 70%, rgba(28,19,10,.94) 100%), linear-gradient(160deg, rgba(28,19,10,.82) 0%, rgba(74,53,32,.5) 60%, rgba(28,19,10,.92) 100%), url('hero-car.jpg') center bottom/cover no-repeat; overflow:hidden; filter:sepia(.35) contrast(1.05); }
-    .hero-upper { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:0; }
-    .hero-lower { display:flex; flex-direction:column; align-items:center; flex-shrink:0; margin-top:2.5rem; }
+    .hero-upper { position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:0; }
+    .hero-lower { position:relative; display:flex; flex-direction:column; align-items:center; flex-shrink:0; margin-top:2.5rem; }
+    .hero-bottom-fade { position:absolute; left:0; right:0; bottom:0; height:380px; background:linear-gradient(to bottom, transparent 0%, rgba(20,13,7,.65) 45%, rgba(20,13,7,.95) 100%); pointer-events:none; }
     .hero::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(201,168,104,.06) 2px,rgba(201,168,104,.06) 4px); pointer-events:none; }
     .badge { display:inline-block; border:1px solid var(--gold); color:var(--gold-lt); font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; padding:.4rem 1.2rem; border-radius:2px; margin-bottom:1.5rem; }
     .hero-plate { width:min(90vw, 520px); max-width:100%; height:auto; display:block; margin:0 auto; filter:drop-shadow(0 4px 30px rgba(0,0,0,.6)) sepia(.25); }
@@ -152,6 +153,7 @@
 </div>
 
 <section class="hero" id="inicio">
+  <div class="hero-bottom-fade"></div>
   <div class="hero-upper">
     <div class="badge">Clube do Autom&#243;vel Antigo de Caruaru</div>
     <img src="plate-9-caruaru-retro.png" alt="9 Caruaru Retro" class="hero-plate" />
