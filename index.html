@@ -70,7 +70,17 @@
     .countdown-number { font-family:'Bevan',serif; font-size:3rem; font-weight:400; color:var(--gold-lt); line-height:1; display:block; }
     .countdown-label { font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:rgba(236,223,194,.58); margin-top:.4rem; }
     .countdown-sep { font-size:3rem; color:var(--gold); align-self:flex-start; margin-top:.2rem; }
-    .registration { background:#fff; }
+    .registration { background:var(--cream); padding-top:0; }
+    .envelope-stripe { height:12px; margin:0 -1.5rem; background:repeating-linear-gradient(45deg, #a8392f 0 16px, #f3ead4 16px 32px, #34557c 32px 48px, #f3ead4 48px 64px); }
+    .envelope-flap { background:#e3d6b8; margin:0 -1.5rem; padding:3rem 1.5rem 6.5rem; text-align:center; }
+    .envelope-flap .section-text { margin:0 auto; text-align:center; }
+    .letter-card { background:#fdfaf0; max-width:980px; margin:-5rem auto 0; padding:3rem; border-radius:2px; box-shadow:0 25px 50px rgba(0,0,0,.3); position:relative; z-index:2; }
+    .letter-card input, .letter-card select, .letter-card textarea { border:none; border-bottom:1.5px solid rgba(43,29,16,.25); border-radius:0; background:transparent; padding:.6rem .2rem; }
+    .letter-card input:focus, .letter-card select:focus, .letter-card textarea:focus { border-color:var(--green); background:rgba(201,168,104,.08); }
+    .letter-card label { color:#8a5a3a; }
+    .btn-letter { background:none; border:none; color:var(--dark); font-family:'Bevan',serif; font-size:1.05rem; letter-spacing:.1em; padding:.5rem 1rem; cursor:pointer; }
+    .btn-letter::before, .btn-letter::after { content:'\2014'; color:var(--gold); margin:0 .7rem; }
+    @media (max-width:700px) { .envelope-flap { padding:2.2rem 1rem 4.5rem; } .letter-card { margin-top:-3.2rem; padding:1.6rem; } }
     .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:2.5rem; }
     .form-group { display:flex; flex-direction:column; gap:.4rem; }
     .form-group.full { grid-column:1/-1; }
@@ -206,10 +216,14 @@
 </section>
 
 <section class="registration" id="inscricao">
-  <div class="container">
+  <div class="envelope-stripe"></div>
+  <div class="envelope-flap">
     <p class="section-label">Vagas Limitadas</p>
     <h2 class="section-title">Inscreva seu ve&#237;culo</h2>
-    <p class="section-text">Preencha o formul&#225;rio abaixo, efetue o pagamento via PIX e confirme sua participa&#231;&#227;o. Taxa de inscri&#231;&#227;o: <strong>R$ 120,00</strong>.</p>
+  </div>
+  <div class="container">
+    <div class="letter-card">
+    <p class="section-text" style="margin:0 auto 1.5rem;text-align:center;">Preencha o formul&#225;rio abaixo, efetue o pagamento via PIX e confirme sua participa&#231;&#227;o. Taxa de inscri&#231;&#227;o: <strong>R$ 120,00</strong>.</p>
     <form class="form-grid" id="registrationForm" onsubmit="handleSubmit(event)">
       <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
         <label for="site_contato">Nao preencher este campo</label>
@@ -257,7 +271,7 @@
       <div class="form-group"><label for="placa">Placa do Ve&#237;culo *</label><input type="text" id="placa" placeholder="Ex: ABC-1234" required /></div>
       <div class="form-group"><label>&nbsp;</label><p class="form-note" style="padding-top:.8rem">Apos o envio, realize o pagamento via PIX e envie o comprovante pelo WhatsApp.</p></div>
       <div class="form-group full"><label for="obs">Observacoes</label><textarea id="obs" placeholder="Alguma observacao adicional? (opcional)"></textarea></div>
-      <div class="form-submit"><button type="submit" class="btn btn-primary">Enviar Inscricao</button></div>
+      <div class="form-submit"><button type="submit" class="btn-letter">Enviar Inscricao</button></div>
     </form>
     <div class="pix-box">
       <div class="pix-icon">&#128179;</div>
@@ -265,6 +279,7 @@
         <h3>Pagamento via PIX &#8212; R$ 120,00</h3>
         <p><strong>CNPJ:</strong> 40.769.791/0001-33<br/>Apos o pagamento, envie o comprovante para o WhatsApp:<br/><strong>(81) 98375-2450</strong><br/>Se o pagamento for feito por outra pessoa, informe seu nome completo na mensagem.</p>
       </div>
+    </div>
     </div>
   </div>
 </section>
