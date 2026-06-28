@@ -29,7 +29,9 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; position:relative; }
     body::before { content:''; position:fixed; inset:0; background:url('paper-texture.jpg'); background-size:260px 260px; opacity:.10; mix-blend-mode:multiply; pointer-events:none; z-index:2; }
-    .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; background: radial-gradient(ellipse at center, transparent 35%, rgba(20,13,7,.55) 100%), linear-gradient(to bottom, rgba(28,19,10,0) 0%, rgba(28,19,10,.5) 70%, rgba(28,19,10,.94) 100%), linear-gradient(160deg, rgba(28,19,10,.82) 0%, rgba(74,53,32,.5) 60%, rgba(28,19,10,.92) 100%), url('hero-car.jpg') center bottom/cover no-repeat; overflow:hidden; filter:sepia(.35) contrast(1.05); }
+    .hero { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; text-align:center; padding:2rem 2rem 3rem; background: radial-gradient(ellipse at center, transparent 35%, rgba(20,13,7,.55) 100%), linear-gradient(to bottom, rgba(28,19,10,0) 0%, rgba(28,19,10,.5) 70%, rgba(28,19,10,.94) 100%), linear-gradient(160deg, rgba(28,19,10,.82) 0%, rgba(74,53,32,.5) 60%, rgba(28,19,10,.92) 100%), url('hero-car.jpg') center bottom/cover no-repeat; overflow:hidden; filter:sepia(.35) contrast(1.05); }
+    .hero-upper { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:0; }
+    .hero-lower { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
     .hero::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(201,168,104,.06) 2px,rgba(201,168,104,.06) 4px); pointer-events:none; }
     .badge { display:inline-block; border:1px solid var(--gold); color:var(--gold-lt); font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; padding:.4rem 1.2rem; border-radius:2px; margin-bottom:1.5rem; }
     .hero-plate { width:min(90vw, 520px); max-width:100%; height:auto; display:block; margin:0 auto; filter:drop-shadow(0 4px 30px rgba(0,0,0,.6)) sepia(.25); }
@@ -148,15 +150,19 @@
 </div>
 
 <section class="hero" id="inicio">
-  <div class="badge">Clube do Autom&#243;vel Antigo de Caruaru</div>
-  <img src="plate-9-caruaru-retro.png" alt="9 Caruaru Retro" class="hero-plate" />
-  <p class="hero-sub">O maior encontro de autom&#243;veis cl&#225;ssicos do Nordeste</p>
-  <div class="divider-ornament"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
-  <img src="banner-data.png" alt="25 e 26 de Setembro de 2026" class="hero-date-img" />
-  <p class="hero-location">BR-104, km 62 &middot; Nova Caruaru &middot; Caruaru, Pernambuco</p>
-  <div class="cta-group">
-    <a href="#inscricao" class="btn-gold"><span>Inscreva seu ve&#237;culo</span></a>
-    <a href="#sobre" class="btn-gold"><span>Saiba mais</span></a>
+  <div class="hero-upper">
+    <div class="badge">Clube do Autom&#243;vel Antigo de Caruaru</div>
+    <img src="plate-9-caruaru-retro.png" alt="9 Caruaru Retro" class="hero-plate" />
+    <p class="hero-sub">O maior encontro de autom&#243;veis cl&#225;ssicos do Nordeste</p>
+    <div class="divider-ornament"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div>
+  </div>
+  <div class="hero-lower">
+    <img src="banner-data.png" alt="25 e 26 de Setembro de 2026" class="hero-date-img" />
+    <p class="hero-location">BR-104, km 62 &middot; Nova Caruaru &middot; Caruaru, Pernambuco</p>
+    <div class="cta-group">
+      <a href="#inscricao" class="btn-gold"><span>Inscreva seu ve&#237;culo</span></a>
+      <a href="#sobre" class="btn-gold"><span>Saiba mais</span></a>
+    </div>
   </div>
 </section>
 
