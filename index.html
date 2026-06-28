@@ -38,10 +38,9 @@
     .hero-date-img { width:min(85vw, 460px); height:auto; display:block; margin:0 auto; }
     .hero-location { font-size:.9rem; color:rgba(236,223,194,.68); margin-top:.5rem; }
     .cta-group { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:2.5rem; }
-    .btn { display:inline-block; padding:.85rem 2.2rem; border-radius:3px; font-weight:600; font-size:.95rem; letter-spacing:.04em; text-decoration:none; transition:transform .2s,box-shadow .2s; cursor:pointer; border:none; }
-    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.35); }
-    .btn-primary { background:linear-gradient(135deg,var(--gold),var(--gold-lt)); color:var(--dark); }
-    .btn-outline { background:transparent; border:2px solid var(--gold); color:var(--gold-lt); }
+    .btn-gold { display:inline-block; border-radius:50px; padding:4px; background:linear-gradient(180deg,#f3df9e 0%,#cda155 35%,#8a6328 65%,#c9a868 100%); box-shadow:0 6px 16px rgba(0,0,0,.4); text-decoration:none; border:none; cursor:pointer; transition:transform .2s; }
+    .btn-gold:hover { transform:translateY(-2px); }
+    .btn-gold span { display:block; border-radius:46px; padding:.85rem 2.4rem; background:radial-gradient(ellipse at 50% 25%,#8a5a30 0%,#5e3a1a 55%,#3a2410 100%); color:#f3e6c4; font-weight:700; font-size:.95rem; letter-spacing:.03em; text-align:center; white-space:nowrap; }
     section { padding:5rem 1.5rem; }
     .container { max-width:1100px; margin:0 auto; }
     .section-label { font-size:.75rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); margin-bottom:.6rem; font-weight:600; }
@@ -78,8 +77,6 @@
     .letter-card input, .letter-card select, .letter-card textarea { border:none; border-bottom:1.5px solid rgba(43,29,16,.25); border-radius:0; background:transparent; padding:.6rem .2rem; }
     .letter-card input:focus, .letter-card select:focus, .letter-card textarea:focus { border-color:var(--green); background:rgba(201,168,104,.08); }
     .letter-card label { color:#8a5a3a; }
-    .btn-letter { background:none; border:none; color:var(--dark); font-family:'Bevan',serif; font-size:1.05rem; letter-spacing:.1em; padding:.5rem 1rem; cursor:pointer; }
-    .btn-letter::before, .btn-letter::after { content:'\2014'; color:var(--gold); margin:0 .7rem; }
     @media (max-width:700px) { .envelope-flap { padding:2.2rem 1rem 4.5rem; } .letter-card { margin-top:-3.2rem; padding:1.6rem; } }
     .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:2.5rem; }
     .form-group { display:flex; flex-direction:column; gap:.4rem; }
@@ -90,7 +87,6 @@
     textarea { resize:vertical; min-height:100px; }
     .form-note { font-size:.8rem; color:var(--muted); margin-top:-.4rem; line-height:1.5; }
     .form-submit { grid-column:1/-1; text-align:center; margin-top:1rem; }
-    .form-submit .btn { min-width:220px; font-size:1rem; padding:1rem 2.5rem; }
     .pix-box { background:var(--cream); border:1px solid rgba(205,187,136,.45); border-radius:6px; padding:1.5rem; margin-top:2rem; display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap; }
     .pix-icon { font-size:2.5rem; }
     .pix-content h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--dark); margin-bottom:.5rem; }
@@ -157,8 +153,8 @@
   <img src="banner-data.png" alt="25 e 26 de Setembro de 2026" class="hero-date-img" />
   <p class="hero-location">BR-104, km 62 &middot; Nova Caruaru &middot; Caruaru, Pernambuco</p>
   <div class="cta-group">
-    <a href="#inscricao" class="btn btn-primary">Inscreva seu ve&#237;culo</a>
-    <a href="#sobre" class="btn btn-outline">Saiba mais</a>
+    <a href="#inscricao" class="btn-gold"><span>Inscreva seu ve&#237;culo</span></a>
+    <a href="#sobre" class="btn-gold"><span>Saiba mais</span></a>
   </div>
 </section>
 
@@ -271,7 +267,7 @@
       <div class="form-group"><label for="placa">Placa do Ve&#237;culo *</label><input type="text" id="placa" placeholder="Ex: ABC-1234" required /></div>
       <div class="form-group"><label>&nbsp;</label><p class="form-note" style="padding-top:.8rem">Apos o envio, realize o pagamento via PIX e envie o comprovante pelo WhatsApp.</p></div>
       <div class="form-group full"><label for="obs">Observacoes</label><textarea id="obs" placeholder="Alguma observacao adicional? (opcional)"></textarea></div>
-      <div class="form-submit"><button type="submit" class="btn-letter">Enviar Inscricao</button></div>
+      <div class="form-submit"><button type="submit" class="btn-gold"><span>Enviar Inscricao</span></button></div>
     </form>
     <div class="pix-box">
       <div class="pix-icon">&#128179;</div>
@@ -344,7 +340,7 @@
 
     var btn = document.querySelector('#registrationForm button[type="submit"]');
     btn.disabled = true;
-    btn.textContent = 'Enviando...';
+    btn.querySelector('span').textContent = 'Enviando...';
 
     fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
       method: 'POST',
@@ -388,7 +384,7 @@
     })
     .catch(function(err) {
       btn.disabled = false;
-      btn.textContent = 'Enviar Inscricao';
+      btn.querySelector('span').textContent = 'Enviar Inscricao';
       alert(err.message || 'Erro ao enviar inscricao. Verifique sua conexao e tente novamente.');
     });
   }
