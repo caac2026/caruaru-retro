@@ -363,11 +363,23 @@
     btn.disabled = true;
     btn.querySelector('span').textContent = 'Enviando...';
 
-    fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
-      method: 'POST',
-      body: JSON.stringify({ nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs, hp: hp })
-    })
-    .then(function(res) { return res.json(); })
+    function enviar(tentativasRestantes) {
+      return fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
+        method: 'POST',
+        body: JSON.stringify({ nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs, hp: hp })
+      })
+      .then(function(res) { return res.json(); })
+      .catch(function(err) {
+        if (tentativasRestantes > 0) {
+          return new Promise(function(resolve) { setTimeout(resolve, 1200); }).then(function() {
+            return enviar(tentativasRestantes - 1);
+          });
+        }
+        throw err;
+      });
+    }
+
+    enviar(2)
     .then(function(result) {
       if (!result.success) { throw new Error(result.error || 'Erro ao processar inscricao'); }
       var inscricao = result.inscricao;
