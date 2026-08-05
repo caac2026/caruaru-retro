@@ -297,6 +297,22 @@
         <p><strong>CNPJ:</strong> 40.769.791/0001-33<br/>Apos o pagamento, envie o comprovante para o WhatsApp:<br/><strong>(81) 98375-2450</strong><br/>Se o pagamento for feito por outra pessoa, informe seu nome completo na mensagem.</p>
       </div>
     </div>
+    <p style="text-align:center;margin-top:1.5rem;font-size:.9rem;color:var(--muted);">Ja se inscreveu? <a href="#acompanhar" style="color:var(--green);font-weight:600;">Acompanhe sua inscricao aqui</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="registration" id="acompanhar" style="padding-top:2rem;">
+  <div class="container">
+    <div class="card" style="max-width:520px;margin:0 auto;">
+      <p class="section-label" style="text-align:center;">Ja se inscreveu?</p>
+      <h2 class="section-title" style="font-size:1.6rem;text-align:center;">Acompanhe sua Inscri&#231;&#227;o</h2>
+      <p class="section-text" style="text-align:center;margin:0 auto 1.5rem;">Informe o n&#250;mero de WhatsApp usado na inscri&#231;&#227;o.</p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;">
+        <input type="tel" id="consultaContato" placeholder="(87) 9 0000-0000" style="flex:1;min-width:200px;padding:.7rem 1rem;border:1.5px solid rgba(43,29,16,.25);border-radius:6px;font-size:1rem;" />
+        <button type="button" id="btnConsultar" class="btn-gold" onclick="consultarInscricao()"><span>Consultar</span></button>
+      </div>
+      <div id="resultadoConsulta" style="margin-top:1.5rem;"></div>
     </div>
   </div>
 </section>
@@ -345,6 +361,68 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec';
+
+  function fetchComRetry(url, opcoes, tentativasRestantes) {
+    return fetch(url, opcoes)
+      .then(function(res) { return res.json(); })
+      .catch(function(err) {
+        if (tentativasRestantes > 0) {
+          return new Promise(function(resolve) { setTimeout(resolve, 1200); }).then(function() {
+            return fetchComRetry(url, opcoes, tentativasRestantes - 1);
+          });
+        }
+        throw err;
+      });
+  }
+
+  function consultarInscricao() {
+    var digitos = document.getElementById('consultaContato').value.replace(/\D/g, '');
+    var resultadoDiv = document.getElementById('resultadoConsulta');
+    var btn = document.getElementById('btnConsultar');
+
+    if (!digitos) {
+      resultadoDiv.innerHTML = '<p style="color:#b00;text-align:center;">Informe um numero de WhatsApp valido.</p>';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'Consultando...';
+    resultadoDiv.innerHTML = '';
+
+    fetchComRetry(SCRIPT_URL + '?contato=' + encodeURIComponent(digitos), { method: 'GET' }, 2)
+    .then(function(result) {
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Consultar';
+
+      if (!result.success) { throw new Error(result.error || 'Erro ao consultar inscricao'); }
+
+      if (!result.resultados || result.resultados.length === 0) {
+        resultadoDiv.innerHTML = '<p style="color:var(--muted);text-align:center;">Nenhuma inscricao encontrada para esse numero.</p>';
+        return;
+      }
+
+      var confirmados = ['SIM','TRUE','X','CONFIRMADO','PAGO','YES'];
+
+      resultadoDiv.innerHTML = result.resultados.map(function(r) {
+        var pagoUpper = String(r.pago || '').toUpperCase();
+        var confirmado = confirmados.indexOf(pagoUpper) >= 0;
+        var pagoTxt = confirmado ? 'Pagamento confirmado' : 'Aguardando confirmacao de pagamento';
+        var pagoCor = confirmado ? '#2e7d32' : '#b8860b';
+        return '<div style="background:var(--cream);border:1.5px solid var(--gold);border-radius:8px;padding:1rem 1.2rem;margin-top:.8rem;text-align:left;">' +
+          '<div style="font-weight:700;color:var(--dark);">' + r.inscricao + ' &#8212; ' + r.nome + '</div>' +
+          '<div style="font-size:.9rem;color:var(--muted);margin-top:.3rem;">' + r.marca + ' ' + r.modelo + ' ' + r.ano + ' &#8212; Placa ' + r.placa + '</div>' +
+          '<div style="font-size:.85rem;font-weight:600;margin-top:.5rem;color:' + pagoCor + ';">' + pagoTxt + '</div>' +
+        '</div>';
+      }).join('');
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Consultar';
+      resultadoDiv.innerHTML = '<p style="color:#b00;text-align:center;">' + (err.message || 'Erro ao consultar. Tente novamente.') + '</p>';
+    });
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     var nome    = document.getElementById('nome').value;
@@ -363,23 +441,10 @@
     btn.disabled = true;
     btn.querySelector('span').textContent = 'Enviando...';
 
-    function enviar(tentativasRestantes) {
-      return fetch('https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec', {
-        method: 'POST',
-        body: JSON.stringify({ nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs, hp: hp })
-      })
-      .then(function(res) { return res.json(); })
-      .catch(function(err) {
-        if (tentativasRestantes > 0) {
-          return new Promise(function(resolve) { setTimeout(resolve, 1200); }).then(function() {
-            return enviar(tentativasRestantes - 1);
-          });
-        }
-        throw err;
-      });
-    }
-
-    enviar(2)
+    fetchComRetry(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ nome: nome, contato: contato, cidade: cidade, estado: estado, clube: clube, marca: marca, modelo: modelo, ano: ano, placa: placa, obs: obs, hp: hp })
+    }, 2)
     .then(function(result) {
       if (!result.success) { throw new Error(result.error || 'Erro ao processar inscricao'); }
       var inscricao = result.inscricao;
