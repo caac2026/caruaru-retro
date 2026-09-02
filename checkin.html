@@ -127,14 +127,15 @@
 
   function renderResultado(r) {
     var pago = CONFIRMADOS.indexOf(String(r.pago || '').toUpperCase()) >= 0;
-    var presente = CONFIRMADOS.indexOf(String(r.compareceu || '').toUpperCase()) >= 0;
+    var compareceu = String(r.compareceu || '').trim();
+    var presente = !!compareceu;
     var badgePago = pago
       ? '<span class="badge badge-pago">Pago</span>'
       : '<span class="badge badge-pendente">Aguardando pagamento</span>';
 
     var acaoHtml;
     if (presente) {
-      acaoHtml = '<button disabled>&#10003; Presenca ja confirmada</button>';
+      acaoHtml = '<button disabled>&#10003; Presenca confirmada em ' + compareceu + '</button>';
     } else if (!pago) {
       acaoHtml = '<button disabled>Pagamento pendente</button>';
     } else {
@@ -159,7 +160,7 @@
     }, 2)
     .then(function(result) {
       if (!result.success) { throw new Error(result.error || 'Erro ao confirmar presenca.'); }
-      btn.textContent = '✓ Presenca confirmada';
+      btn.textContent = '✓ Presenca confirmada em ' + (result.dataHora || 'agora');
     })
     .catch(function(err) {
       var mensagem = err.message || 'Erro ao confirmar presenca.';
