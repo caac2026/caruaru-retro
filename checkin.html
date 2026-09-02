@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Check-in - Caruaru Retro</title>
+<style>
+  :root { --cream:#ecdfc2; --dark:#1c130a; --green:#306a41; --green-dark:#1a3d26; --gold:#c9a868; --text:#2b1d10; --muted:#6b5840; }
+  * { box-sizing:border-box; }
+  body { font-family:'Inter',Arial,sans-serif; background:var(--cream); color:var(--text); margin:0; padding:1rem; }
+  h1 { font-size:1.3rem; color:var(--dark); text-align:center; margin:.5rem 0 1.2rem; }
+  .card-box { background:#fff; border-radius:8px; padding:1.2rem; max-width:480px; margin:0 auto 1rem; box-shadow:0 2px 12px rgba(0,0,0,.08); }
+  label { font-size:.8rem; font-weight:600; color:var(--muted); display:block; margin-bottom:.3rem; }
+  input[type=password], input[type=tel] { width:100%; padding:.7rem; border:1.5px solid rgba(43,29,16,.25); border-radius:6px; font-size:1rem; margin-bottom:.8rem; }
+  button { width:100%; padding:.8rem; border:none; border-radius:6px; background:var(--green); color:#fff; font-weight:700; font-size:1rem; cursor:pointer; }
+  button:hover { background:var(--green-dark); }
+  button:disabled { background:#ccc; cursor:not-allowed; }
+  #resultados { max-width:480px; margin:0 auto; }
+  .resultado { background:#fff; border:1.5px solid rgba(201,168,104,.5); border-radius:8px; padding:1rem; margin-top:.8rem; }
+  .resultado h3 { margin:0 0 .3rem; font-size:1.05rem; color:var(--dark); }
+  .resultado p { margin:.2rem 0; font-size:.9rem; color:var(--muted); }
+  .badge { display:inline-block; padding:.25rem .7rem; border-radius:20px; font-size:.75rem; font-weight:700; }
+  .badge-pago { background:#c6efce; color:#256029; }
+  .badge-pendente { background:#fdecc8; color:#9c6500; }
+  .resultado button { margin-top:.6rem; }
+  .msg { text-align:center; color:var(--muted); font-size:.9rem; margin-top:1rem; }
+  .msg-erro { color:#a50e0e; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+
+<h1>Check-in &#8212; IX Caruaru Retro 2026</h1>
+
+<div class="card-box" id="boxPin">
+  <label for="pin">PIN da equipe</label>
+  <input type="password" id="pin" placeholder="Digite o PIN" autocomplete="off" />
+  <button onclick="entrar()">Entrar</button>
+  <p class="msg msg-erro" id="erroPin" hidden></p>
+</div>
+
+<div class="card-box" id="boxBusca" hidden>
+  <label for="telefone">WhatsApp do participante</label>
+  <input type="tel" id="telefone" placeholder="(87) 9 0000-0000" />
+  <button onclick="buscar()"><span id="btnBuscarTexto">Buscar</span></button>
+</div>
+
+<div id="resultados"></div>
+
+<script>
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz183vtta8ZAUevZVjEe8Ci2vUB1r4fVKsZ8MtOS1WbYNXGU1ny1VRpJzi6cscCT7-M/exec';
+  var CONFIRMADOS = ['SIM', 'TRUE', 'X', 'CONFIRMADO', 'PAGO', 'YES'];
+
+  function fetchComRetry(url, opcoes, tentativasRestantes) {
+    return fetch(url, opcoes)
+      .then(function(res) { return res.json(); })
+      .catch(function(err) {
+        if (tentativasRestantes > 0) {
+          return new Promise(function(resolve) { setTimeout(resolve, 1200); }).then(function() {
+            return fetchComRetry(url, opcoes, tentativasRestantes - 1);
+          });
+        }
+        throw err;
+      });
+  }
+
+  function getPin() {
+    try { return localStorage.getItem('caac_checkin_pin') || ''; } catch (e) { return ''; }
+  }
+  function setPin(v) {
+    try { localStorage.setItem('caac_checkin_pin', v); } catch (e) {}
+  }
+
+  function mostrarTelaBusca() {
+    document.getElementById('boxPin').hidden = true;
+    document.getElementById('boxBusca').hidden = false;
+  }
+  function mostrarTelaPin(mensagemErro) {
+    setPin('');
+    document.getElementById('boxPin').hidden = false;
+    document.getElementById('boxBusca').hidden = true;
+    var erro = document.getElementById('erroPin');
+    if (mensagemErro) {
+      erro.textContent = mensagemErro;
+      erro.hidden = false;
+    } else {
+      erro.hidden = true;
+    }
+  }
+
+  function entrar() {
+    var valor = document.getElementById('pin').value.trim();
+    if (!valor) return;
+    setPin(valor);
+    mostrarTelaBusca();
+  }
+
+  if (getPin()) { mostrarTelaBusca(); }
+
+  function buscar() {
+    var digitos = document.getElementById('telefone').value.replace(/\D/g, '');
+    var resultadosDiv = document.getElementById('resultados');
+    if (!digitos) {
+      resultadosDiv.innerHTML = '<p class="msg msg-erro">Informe um numero valido.</p>';
+      return;
+    }
+
+    document.getElementById('btnBuscarTexto').textContent = 'Buscando...';
+    resultadosDiv.innerHTML = '';
+
+    fetchComRetry(SCRIPT_URL + '?contato=' + encodeURIComponent(digitos), { method: 'GET' }, 2)
+    .then(function(result) {
+      document.getElementById('btnBuscarTexto').textContent = 'Buscar';
+      if (!result.success) { throw new Error(result.error || 'Erro ao buscar.'); }
+      if (!result.resultados || result.resultados.length === 0) {
+        resultadosDiv.innerHTML = '<p class="msg">Nenhuma inscricao encontrada para esse numero.</p>';
+        return;
+      }
+      resultadosDiv.innerHTML = result.resultados.map(renderResultado).join('');
+    })
+    .catch(function(err) {
+      document.getElementById('btnBuscarTexto').textContent = 'Buscar';
+      resultadosDiv.innerHTML = '<p class="msg msg-erro">' + (err.message || 'Erro ao buscar. Tente novamente.') + '</p>';
+    });
+  }
+
+  function renderResultado(r) {
+    var pago = CONFIRMADOS.indexOf(String(r.pago || '').toUpperCase()) >= 0;
+    var presente = CONFIRMADOS.indexOf(String(r.compareceu || '').toUpperCase()) >= 0;
+    var badgePago = pago
+      ? '<span class="badge badge-pago">Pago</span>'
+      : '<span class="badge badge-pendente">Aguardando pagamento</span>';
+
+    var acaoHtml;
+    if (presente) {
+      acaoHtml = '<button disabled>&#10003; Presenca ja confirmada</button>';
+    } else if (!pago) {
+      acaoHtml = '<button disabled>Pagamento pendente</button>';
+    } else {
+      acaoHtml = '<button onclick="confirmarPresenca(\'' + r.inscricao + '\', this)">Confirmar presenca</button>';
+    }
+
+    return '<div class="resultado">' +
+      '<h3>' + r.inscricao + ' &#8212; ' + r.nome + '</h3>' +
+      '<p>' + r.marca + ' ' + r.modelo + ' ' + r.ano + ' &#8212; Placa ' + r.placa + '</p>' +
+      '<p>' + badgePago + '</p>' +
+      acaoHtml +
+      '</div>';
+  }
+
+  function confirmarPresenca(inscricao, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Confirmando...';
+
+    fetchComRetry(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ acao: 'checkin', pin: getPin(), inscricao: inscricao })
+    }, 2)
+    .then(function(result) {
+      if (!result.success) { throw new Error(result.error || 'Erro ao confirmar presenca.'); }
+      btn.textContent = '✓ Presenca confirmada';
+    })
+    .catch(function(err) {
+      var mensagem = err.message || 'Erro ao confirmar presenca.';
+      if (mensagem.indexOf('PIN') >= 0) {
+        mostrarTelaPin('PIN incorreto. Digite novamente.');
+        return;
+      }
+      btn.disabled = false;
+      btn.textContent = 'Confirmar presenca';
+      alert(mensagem);
+    });
+  }
+</script>
+</body>
+</html>
