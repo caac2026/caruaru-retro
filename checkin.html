@@ -53,16 +53,29 @@
   var CONFIRMADOS = ['SIM', 'TRUE', 'X', 'CONFIRMADO', 'PAGO', 'YES'];
 
   function fetchComRetry(url, opcoes, tentativasRestantes) {
-    return fetch(url, opcoes)
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function() { controller.abort(); }, 15000);
+    var opcoesComSinal = { method: opcoes.method, body: opcoes.body, signal: controller.signal };
+    return fetch(url, opcoesComSinal)
       .then(function(res) { return res.json(); })
+      .finally(function() { clearTimeout(timeoutId); })
       .catch(function(err) {
         if (tentativasRestantes > 0) {
           return new Promise(function(resolve) { setTimeout(resolve, 1200); }).then(function() {
             return fetchComRetry(url, opcoes, tentativasRestantes - 1);
           });
         }
-        throw err;
+        throw (err && err.name === 'AbortError') ? new Error('Sem resposta do servidor. Tente novamente.') : err;
       });
+  }
+
+  function escapeHtml(valor) {
+    return String(valor == null ? '' : valor)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function getPin() {
@@ -135,20 +148,26 @@
 
     var acaoHtml;
     if (presente) {
-      acaoHtml = '<button disabled>&#10003; Presenca confirmada em ' + compareceu + '</button>';
+      acaoHtml = '<button disabled>&#10003; Presenca confirmada em ' + escapeHtml(compareceu) + '</button>';
     } else if (!pago) {
       acaoHtml = '<button disabled>Pagamento pendente</button>';
     } else {
-      acaoHtml = '<button onclick="confirmarPresenca(\'' + r.inscricao + '\', this)">Confirmar presenca</button>';
+      acaoHtml = '<button data-inscricao="' + escapeHtml(r.inscricao) + '">Confirmar presenca</button>';
     }
 
     return '<div class="resultado">' +
-      '<h3>' + r.inscricao + ' &#8212; ' + r.nome + '</h3>' +
-      '<p>' + r.marca + ' ' + r.modelo + ' ' + r.ano + ' &#8212; Placa ' + r.placa + '</p>' +
+      '<h3>' + escapeHtml(r.inscricao) + ' &#8212; ' + escapeHtml(r.nome) + '</h3>' +
+      '<p>' + escapeHtml(r.marca) + ' ' + escapeHtml(r.modelo) + ' ' + escapeHtml(r.ano) + ' &#8212; Placa ' + escapeHtml(r.placa) + '</p>' +
       '<p>' + badgePago + '</p>' +
       acaoHtml +
       '</div>';
   }
+
+  document.getElementById('resultados').addEventListener('click', function(ev) {
+    var btn = ev.target.closest('button[data-inscricao]');
+    if (!btn) return;
+    confirmarPresenca(btn.dataset.inscricao, btn);
+  });
 
   function confirmarPresenca(inscricao, btn) {
     btn.disabled = true;
@@ -165,6 +184,7 @@
     .catch(function(err) {
       var mensagem = err.message || 'Erro ao confirmar presenca.';
       if (mensagem.indexOf('PIN') >= 0) {
+        document.getElementById('resultados').innerHTML = '';
         mostrarTelaPin('PIN incorreto. Digite novamente.');
         return;
       }
